@@ -1,11 +1,9 @@
 import { FeedUI } from '@ui-pages';
 import { fetchFeeds } from '@slices/feedSlice';
-import { fetchIngredients } from '@slices/ingredientsSlice';
 import {
   selectFeedOrders,
   selectIsFeedLoading
 } from '@selectors/feedSelectors';
-import { selectIngredients } from '@selectors/ingredientsSelectors';
 import { FC, useCallback, useEffect } from 'react';
 
 import { Preloader } from '@ui';
@@ -15,7 +13,6 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector(selectFeedOrders);
   const isLoading = useSelector(selectIsFeedLoading);
-  const ingredients = useSelector(selectIngredients);
 
   const handleGetFeeds = useCallback(() => {
     dispatch(fetchFeeds());
@@ -23,10 +20,7 @@ export const Feed: FC = () => {
 
   useEffect(() => {
     handleGetFeeds();
-    if (!ingredients.length) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, handleGetFeeds, ingredients.length]);
+  }, [handleGetFeeds]);
 
   if (isLoading && !orders.length) {
     return <Preloader />;

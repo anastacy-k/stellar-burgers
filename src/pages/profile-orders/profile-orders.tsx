@@ -1,7 +1,5 @@
 import { ProfileOrdersUI } from '@ui-pages';
-import { fetchIngredients } from '@slices/ingredientsSlice';
 import { fetchUserOrders } from '@slices/ordersSlice';
-import { selectIngredients } from '@selectors/ingredientsSelectors';
 import {
   selectIsUserOrdersLoading,
   selectUserOrders
@@ -15,14 +13,10 @@ export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector(selectUserOrders);
   const isLoading = useSelector(selectIsUserOrdersLoading);
-  const ingredients = useSelector(selectIngredients);
 
   useEffect(() => {
     dispatch(fetchUserOrders());
-    if (!ingredients.length) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, ingredients.length]);
+  }, [dispatch]);
 
   if (isLoading && !orders.length) {
     return <Preloader />;

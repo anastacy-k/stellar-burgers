@@ -9,6 +9,7 @@ import {
   Register,
   ResetPassword
 } from '@pages';
+import { fetchIngredients } from '@slices/ingredientsSlice';
 import { checkUserAuth } from '@slices/userSlice';
 import { FC, useEffect } from 'react';
 import {
@@ -85,6 +86,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   return (
