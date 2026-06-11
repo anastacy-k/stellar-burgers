@@ -91,7 +91,10 @@ describe('constructorSlice reducer', () => {
       const state = reducer(initialState, addIngredient(mockFilling));
 
       expect(state.ingredients).toHaveLength(1);
-      expect(state.ingredients[0]).toMatchObject({ ...mockFilling, id: 'test-uuid' });
+      expect(state.ingredients[0]).toMatchObject({
+        ...mockFilling,
+        id: 'test-uuid'
+      });
     });
 
     it('накапливает несколько начинок в массиве', () => {

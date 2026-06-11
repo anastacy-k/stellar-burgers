@@ -26,14 +26,17 @@ export const initialState: TUserState = {
   error: null
 };
 
-export const checkUserAuth = createAsyncThunk('user/checkUserAuth', async () => {
-  if (!getCookie('accessToken')) {
-    return null;
-  }
+export const checkUserAuth = createAsyncThunk(
+  'user/checkUserAuth',
+  async () => {
+    if (!getCookie('accessToken')) {
+      return null;
+    }
 
-  const data = await getUserApi();
-  return data.user;
-});
+    const data = await getUserApi();
+    return data.user;
+  }
+);
 
 export const loginUser = createAsyncThunk(
   'user/login',
