@@ -1,3 +1,4 @@
+import { v4 as uuidV4 } from 'uuid';
 import reducer, {
   initialState,
   addIngredient,
@@ -98,10 +99,16 @@ describe('constructorSlice reducer', () => {
     });
 
     it('накапливает несколько начинок в массиве', () => {
+      (uuidV4 as jest.Mock)
+        .mockReturnValueOnce('uuid-1')
+        .mockReturnValueOnce('uuid-2');
+
       let state = reducer(initialState, addIngredient(mockFilling));
       state = reducer(state, addIngredient(mockFilling));
 
       expect(state.ingredients).toHaveLength(2);
+      expect(state.ingredients[0].id).toBe('uuid-1');
+      expect(state.ingredients[1].id).toBe('uuid-2');
     });
   });
 
@@ -143,8 +150,7 @@ describe('constructorSlice reducer', () => {
     it('не перемещает первый ингредиент', () => {
       const state = reducer(stateWithThreeItems, moveIngredientUp(0));
 
-      expect(state.ingredients[0].id).toBe('uuid-1');
-      expect(state.ingredients[1].id).toBe('uuid-2');
+      expect(state.ingredients).toEqual(stateWithThreeItems.ingredients);
     });
   });
 
@@ -168,7 +174,7 @@ describe('constructorSlice reducer', () => {
     it('не перемещает последний ингредиент', () => {
       const state = reducer(stateWithThreeItems, moveIngredientDown(2));
 
-      expect(state.ingredients[2].id).toBe('uuid-3');
+      expect(state.ingredients).toEqual(stateWithThreeItems.ingredients);
     });
   });
 
