@@ -111,6 +111,8 @@ test.describe('Страница конструктора бургера', () => 
 
   test.describe('Модальное окно ингредиента', () => {
     test('открывается при клике на ингредиент', async ({ page }) => {
+      await expect(page.getByText('Детали ингредиента')).not.toBeVisible();
+
       // Кликаем на изображение первого ингредиента в списке (ссылку на детали)
       await page.getByAltText('картинка ингредиента.').first().click();
 
@@ -130,6 +132,8 @@ test.describe('Страница конструктора бургера', () => 
     test('отображает данные именно того ингредиента, по которому произошел клик', async ({
       page
     }) => {
+      await expect(page.getByText('Детали ингредиента')).not.toBeVisible();
+
       // Кликаем на второй ингредиент в списке (Флюоресцентная булка R2-D3)
       await page.getByAltText('картинка ингредиента.').nth(1).click();
 
@@ -198,6 +202,10 @@ test.describe('Страница конструктора бургера', () => 
       // Собираем бургер
       await addFirstBun(page);
       await addFirstFilling(page);
+
+      await expect(
+        page.locator('#modals').filter({ hasText: String(mockOrderNumber) })
+      ).not.toBeVisible();
 
       // Нажимаем «Оформить заказ»
       await page.getByRole('button', { name: 'Оформить заказ' }).click();
